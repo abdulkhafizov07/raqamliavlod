@@ -139,7 +139,7 @@ AUTH_USER_MODEL = 'users.User'
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
-
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full'
