@@ -21,7 +21,7 @@ ALLOWED_HOSTS = ['raqamliavlod.uz', 'www.raqamliavlod.uz', "195.158.4.211", "tel
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880 * 10
 
-CSRF_TRUSTED_ORIGINS = ['https://raqamliavlod.uz',"195.158.4.211", 'https://www.raqamliavlod.uz']
+CSRF_TRUSTED_ORIGINS = ['https://raqamliavlod.uz',"http://195.158.4.211", 'https://www.raqamliavlod.uz']
 
 
 # Application definition
