@@ -2,11 +2,10 @@ from aiogram import Dispatcher, F
 from aiogram.types import Message
 from asgiref.sync import sync_to_async
 from news.models import News
-from bot.config import bot
+from bot.config import bot,dp
 
 from django.conf import settings
 
-dp = None
 
 @dp.message(F.text == "/start")
 async def start_handler(message: Message):
