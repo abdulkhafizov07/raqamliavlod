@@ -17,7 +17,7 @@ DEBUG = False
 DEBUG = True
 TG_CHANNEL_ID = -1001294224760
 CSRF_COOKIE_SECURE = True
-ALLOWED_HOSTS = ['raqamliavlod.uz', 'www.raqamliavlod.uz', "195.158.4.211", "telegrambot.ithubacademy.uz", "www.telegrambot.ithubacademy.uz", "localhost",]
+ALLOWED_HOSTS = ['raqamliavlod.uz', 'www.raqamliavlod.uz', '*', "195.158.4.211", "telegrambot.ithubacademy.uz", "www.telegrambot.ithubacademy.uz", "localhost",]
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880 * 10
 
