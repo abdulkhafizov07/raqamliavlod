@@ -1,60 +1,37 @@
 import sqlite3
-import shutil
-import os
 
-OLD_DB = "old.sqlite3"     # eski baza
-NEW_DB = "db.sqlite3"     # yangi baza
+DB = "db.sqlite3"
+TABLE = "news_news"
 
-OLD_TABLE = "news_news"    # eski jadval nomi
-NEW_TABLE = "news_news"    # yangi jadval nomi
+def remove_duplicates():
+    conn = sqlite3.connect(DB)
+    cur = conn.cursor()
 
-MEDIA_DIR = "media/news/"  # rasmlar papkasi (ixtiyoriy ko‘chirish)
+    # Barcha title larni olish
+    cur.execute(f"SELECT id, title FROM {TABLE} ORDER BY id")
+    rows = cur.fetchall()
 
+    seen = {}
+    delete_ids = []
 
-def copy_news():
-    old_conn = sqlite3.connect(OLD_DB)
-    new_conn = sqlite3.connect(NEW_DB)
+    for item_id, title in rows:
+        if title in seen:
+            # oldin bor bo‘lsa → o‘chirishga belgilaymiz
+            delete_ids.append(item_id)
+        else:
+            seen[title] = item_id  # birinchi title saqlanadi
 
-    old_cur = old_conn.cursor()
-    new_cur = new_conn.cursor()
+    print(f"O'chiriladigan dublikatlar soni: {len(delete_ids)}")
 
-    # Eski DBdan ma'lumotlarni olish
-    old_cur.execute(f"SELECT id, title, image, time, tg_url FROM {OLD_TABLE}")
-    rows = old_cur.fetchall()
+    # O'chirish
+    for item_id in delete_ids:
+        cur.execute(f"DELETE FROM {TABLE} WHERE id = ?", (item_id,))
 
-    print(f"{len(rows)} ta yangilik topildi. Ko'chirish boshlandi...\n")
+    conn.commit()
+    conn.close()
 
-    for row in rows:
-        _, title, image, time, tg_url = row
-
-        # ↳ Faylni ham ko‘chirib qo‘yish (agar mavjud bo'lsa)
-        if image:
-            old_path = f"old_media/{image}"
-            new_path = f"new_media/{image}"
-
-            os.makedirs(os.path.dirname(new_path), exist_ok=True)
-
-            if os.path.exists(old_path):
-                shutil.copy2(old_path, new_path)
-                print(f"Image copied: {image}")
-            else:
-                print(f"Image NOT FOUND: {image}")
-
-        # Yangi DBga yozish (ID avtomatik yaratiladi)
-        new_cur.execute(
-            f"""
-            INSERT INTO {NEW_TABLE} (title, image, time, tg_url)
-            VALUES (?, ?, ?, ?)
-            """,
-            (title, image, time, tg_url),
-        )
-
-    new_conn.commit()
-    old_conn.close()
-    new_conn.close()
-
-    print("\nBarcha yangiliklar muvaffaqiyatli ko'chirildi!")
+    print("Takrorlangan title lar tozalandi! Faqat yagona objectlar qoldi.")
 
 
 if __name__ == "__main__":
-    copy_news()
+    remove_duplicates()

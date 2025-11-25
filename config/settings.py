@@ -24,7 +24,7 @@ ALLOWED_HOSTS = [
     "www.telegrambot.ithubacademy.uz",
 ]
 
-DEBUG = True
+DEBUG = False
 
 # ALLOWED_HOSTS = ['*']   # local uchun mumkin
 
