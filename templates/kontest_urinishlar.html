@@ -37,7 +37,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="h-max w-full">
-{% for masala_result in kontest.kontest_results.all%}
+{% for urinish in masala_result.masala.ishlaganlar.all %}
                                                     <tr class="flex h-max w-full cursor-pointer flex-row items-center justify-evenly rounded-sm text-center hover:bg-slate-100">
                                                         <td class="box-content flex h-fit min-h-[40px] w-full min-w-[160px] flex-wrap items-center justify-center break-words text-center text-base">
                                                             {{ urinish.user.first_name }}
@@ -55,7 +55,7 @@
                                                             {{ urinish.time }}
                                                         </td>
                                                     </tr>
-                                            {% endfor %}
+                                                {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
