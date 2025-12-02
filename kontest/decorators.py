@@ -35,20 +35,29 @@ MAX_TIME = timedelta(minutes=20)
 
 #     return wrapper
 def check_contest_time(view_func):
+    @wraps(view_func)
     def wrapper(request, *args, **kwargs):
         kontest_id = kwargs.get('kontest_id') or request.GET.get("kontest_id")
         
         # masala_detail uchun masala_id orqali kontestni olish
         if not kontest_id and "masala_id" in kwargs:
             from kontest.models import Masala
-            masala = Masala.objects.get(id=kwargs["masala_id"])
-            kontest_id = masala.kontest.id
+            try:
+                masala = Masala.objects.get(id=kwargs["masala_id"])
+                kontest_id = masala.kontest.id
+            except Masala.DoesNotExist:
+                messages.error(request, "Masala topilmadi!")
+                return redirect("kontest")
 
         from kontest.models import Kontest, UserKontestRelation
-        kontest = Kontest.objects.get(id=kontest_id)
+        try:
+            kontest = Kontest.objects.get(id=kontest_id)
+        except Kontest.DoesNotExist:
+            messages.error(request, "Kontest topilmadi!")
+            return redirect("kontest")
 
-        # 1️⃣ Avval foydalanuvchi allaqachon diskval bo‘lganmi? — TEKSHIRAMIZ
-        relation, _ = UserKontestRelation.objects.get_or_create(
+        # 1️⃣ Avval foydalanuvchi allaqachon diskval bo'lganmi?
+        relation, created = UserKontestRelation.objects.get_or_create(
             kontest=kontest, user=request.user
         )
 
@@ -60,13 +69,15 @@ def check_contest_time(view_func):
         if not relation.created_at:
             relation.created_at = timezone.now()
             relation.save()
+            if created:
+                messages.success(request, "Siz kontestga muvaffaqiyatli qo'shildingiz!")
 
         # 3️⃣ Foydalanuvchi uchun qolgan vaqt
-        MAX_TIME = timezone.timedelta(minutes=5)
+        MAX_TIME = timezone.timedelta(hours=3)  # 3 soat
         time_passed = timezone.now() - relation.created_at
         time_left = MAX_TIME - time_passed
 
-        # 4️⃣ Agar TIME OVER bo‘lsa — DISQUALIFY QILAMIZ
+        # 4️⃣ Agar TIME OVER bo'lsa — DISQUALIFY QILAMIZ
         if time_left.total_seconds() <= 0:
             relation.is_disqualified = True
             relation.disqualified_at = timezone.now()
@@ -75,13 +86,18 @@ def check_contest_time(view_func):
 
             messages.error(request, "Sizning shaxsiy kontest vaqtingiz tugadi!")
             return redirect("kontest")
+
+        # 5️⃣ Qolgan vaqtni hisoblash (context uchun)
         total_seconds = int(time_left.total_seconds())
         hours = total_seconds // 3600
         minutes = (total_seconds % 3600) // 60
         seconds = total_seconds % 60
-        # 5️⃣ Vaqtni konteksga berish
-        kwargs["cdown"] = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+        
+        # Request object'ga qolgan vaqtni qo'shamiz
+        request.cdown = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+        request.cdown_seconds = total_seconds
 
+        # View funksiyani chaqiramiz
         return view_func(request, *args, **kwargs)
 
     return wrapper
