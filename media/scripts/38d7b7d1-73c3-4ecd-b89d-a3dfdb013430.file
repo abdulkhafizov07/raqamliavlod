@@ -1,0 +1,14 @@
+grade = int(input())
+
+# 38 dan kichik bo'lsa, o'zgarmaydi
+if grade < 38:
+    print(grade)
+else:
+    next_multiple = ((grade // 5) + 1) * 5
+    diff = next_multiple - grade
+
+    # farq 3 dan kichik bo'lsa yaxlitlaymiz
+    if diff < 3:
+        print(next_multiple)
+    else:
+        print(grade)

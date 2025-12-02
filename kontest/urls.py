@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views import (kontest, musobaqalar, masalalar, kontest_detail, kontest_urinishlar, 
                     kontest_masalalar, kontest_qatnashuvchilar, masala_detail, 
-                    turnir_jadvali,reyting, masalalar_ballari, kontestni_tugatish)
+                    turnir_jadvali,reyting, masalalar_ballari, kontestni_tugatish,leave_contest)
 
 
 urlpatterns = [
@@ -17,5 +17,6 @@ urlpatterns = [
     path('turnir-jadvali/<int:kontest_id>/', turnir_jadvali, name='turnir_jadvali'),
     path('reyting/', reyting, name='reyting'),
     path("masalalar_ballari/<int:k_id>/", masalalar_ballari, name="masalalar_ballari"),
-    path("kontestni_yakunlash/<int:kontest_id>/", kontestni_tugatish, name="kontestni_tugatish")
+    path("kontestni_yakunlash/<int:kontest_id>/", kontestni_tugatish, name="kontestni_tugatish"),
+    path('leave-contest/<int:contest_id>/', leave_contest, name='leave_contest'),
 ]

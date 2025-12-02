@@ -1,0 +1,10 @@
+# Kirish
+A, B = map(int, input().split())
+
+# Taqqoslash va chiqish
+if A > B:
+    print(">")
+elif A < B:
+    print("<")
+else:
+    print("=")

@@ -118,8 +118,10 @@ class UserKontestRelation(models.Model):
     )
     score = models.IntegerField(default=0)    
     created_at = models.DateTimeField(null=True, blank=True)
-
-
+    is_disqualified = models.BooleanField(default=False)  
+    disqualified_at = models.DateTimeField(null=True, blank=True)  
+    class Meta:
+        unique_together = ['kontest', 'user'] 
 class UserMasalaRelation(models.Model):
     user = models.ForeignKey(
         User,
@@ -202,3 +204,4 @@ class Test(models.Model):
     kirish = models.TextField()
     output = models.TextField()
     hidden = models.BooleanField(default=True)
+    

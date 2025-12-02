@@ -1,0 +1,9 @@
+// Write your code here... 
+a=input("birinchi butun sonni kiriting  \n >>>")
+b=input("birinchi butun sonni kiriting  \n >>>")
+if a>b:
+  print( f"{a}> {b}")
+if b<a:  
+  print( f"{a}< {b}") 
+else: 
+  print(" Siz kiritgan sonlar teng")  

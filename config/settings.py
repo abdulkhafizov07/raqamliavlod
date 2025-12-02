@@ -19,12 +19,13 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880 * 10
 ALLOWED_HOSTS = [
     "raqamliavlod.uz",
     "www.raqamliavlod.uz",
-    "195.158.4.211",
+    "127.0.0.1",
+    "raqamliavlod.dev-platform.uz",
     "telegrambot.ithubacademy.uz",
     "www.telegrambot.ithubacademy.uz",
 ]
 
-DEBUG = False
+DEBUG = True
 
 # ALLOWED_HOSTS = ['*']   # local uchun mumkin
 
@@ -32,7 +33,7 @@ CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
 
 
-CSRF_TRUSTED_ORIGINS = ['https://raqamliavlod.uz',"http://195.158.4.211", 'https://www.raqamliavlod.uz']
+CSRF_TRUSTED_ORIGINS = ['https://raqamliavlod.uz',"http://raqamliavlod.dev-platform.uz","https://raqamliavlod.dev-platform.uz", 'https://www.raqamliavlod.uz']
 
 
 # Application definition

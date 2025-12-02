@@ -1,0 +1,22 @@
+#include<bits/stdc++.h>
+using  namespace std;
+#define int long long
+#define vec vector
+//#define testcases
+
+void solve() {
+    int a,b;
+    cin>>a>>b;
+    cout<<a+b;
+}
+signed main(){
+    cin.tie(nullptr)->sync_with_stdio(false);
+    int t = 1;
+    #ifdef testcases
+        cin>>t;
+    #endif
+    while(t--){
+        solve();
+        cout<<endl;
+    }
+}

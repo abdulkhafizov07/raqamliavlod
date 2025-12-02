@@ -1,0 +1,5 @@
+# Muallif: Muxtoriddin Erkinboyev
+# Masala: A + B
+
+a, b = map(int, input().split())
+print(a + b)

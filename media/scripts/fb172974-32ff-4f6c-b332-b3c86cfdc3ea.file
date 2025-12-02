@@ -1,0 +1,9 @@
+n = int(input())
+if n < 38:
+    s = n
+else:
+    if n % 5 > 2 :
+        s = ((n//5)*5) +5
+    else:
+        s = n
+print(s)

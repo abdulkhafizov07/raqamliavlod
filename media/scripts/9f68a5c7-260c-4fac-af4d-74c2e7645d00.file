@@ -1,0 +1,3 @@
+// Write your code here...
+N, P = map(int, input().split())
+print(N * P)

@@ -1,56 +1,87 @@
 from datetime import timedelta
 from django.utils.timezone import now
+from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.shortcuts import redirect
 from .models import Masala
-
-MAX_TIME = timedelta(hours=3)
+from functools import wraps
+import json
+MAX_TIME = timedelta(minutes=20)
 # print(eval(input().replace(" ", "+")))
-def check_contest_time(fn):
+# def check_contest_time(fn):
+#     def wrapper(request, *args, **kwargs):
+#         cdown = "03:00:00"
+#         if request.method == "POST":
+#             masala = get_object_or_404(Masala, id=kwargs.get('masala_id'))
+#             current_time = now()
+
+#             user_contests = request.user.kontests.all()
+#             for contest in user_contests:
+#                 if masala in contest.kontest.masalalar.all():
+#                     if contest.created_at:
+#                         time_difference = current_time - contest.created_at
+#                         cdown = str(time_difference)
+#                         if time_difference > MAX_TIME:
+#                             messages.add_message(request, messages.ERROR, "Sizga test yechish uchun berilgan vaqt tugadi.")
+
+#                             return redirect(request.path)
+#                     else:
+#                         contest.created_at = now()
+#                         contest.save()
+#                     break
+
+#         return fn(request, cdown=cdown, *args, **kwargs)
+
+#     return wrapper
+def check_contest_time(view_func):
     def wrapper(request, *args, **kwargs):
-        cdown = "03:00:00"
-        if request.method == "POST":
-            masala = get_object_or_404(Masala, id=kwargs.get('masala_id'))
-            current_time = now()
+        kontest_id = kwargs.get('kontest_id') or request.GET.get("kontest_id")
+        
+        # masala_detail uchun masala_id orqali kontestni olish
+        if not kontest_id and "masala_id" in kwargs:
+            from kontest.models import Masala
+            masala = Masala.objects.get(id=kwargs["masala_id"])
+            kontest_id = masala.kontest.id
 
-            user_contests = request.user.kontests.all()
-            for contest in user_contests:
-                if masala in contest.kontest.masalalar.all():
-                    if contest.created_at:
-                        time_difference = current_time - contest.created_at
-                        cdown = str(time_difference)
-                        if time_difference > MAX_TIME:
-                            messages.add_message(request, messages.ERROR, "Sizga test yechish uchun berilgan vaqt tugadi.")
+        from kontest.models import Kontest, UserKontestRelation
+        kontest = Kontest.objects.get(id=kontest_id)
 
-                            return redirect(request.path)
-                    else:
-                        contest.created_at = now()
-                        contest.save()
-                    break
+        # 1️⃣ Avval foydalanuvchi allaqachon diskval bo‘lganmi? — TEKSHIRAMIZ
+        relation, _ = UserKontestRelation.objects.get_or_create(
+            kontest=kontest, user=request.user
+        )
 
-        return fn(request, cdown=cdown, *args, **kwargs)
+        if relation.is_disqualified:
+            messages.error(request, "Sizning kontest vaqtingiz tugagan yoki siz chiqarilgansiz!")
+            return redirect("kontest")
 
-    return wrapper
+        # 2️⃣ Userning shaxsiy start vaqti
+        if not relation.created_at:
+            relation.created_at = timezone.now()
+            relation.save()
 
-def check_contest_time(fn):
-    def wrapper(request, *args, **kwargs):
-        cdown = "03:00:00"
-        if request.method == "POST":
-            masala = get_object_or_404(Masala, id=kwargs.get('masala_id'))
-            current_time = now()
-            contest = masala.kontest
-            if contest.created_at:
-                time_difference = current_time - contest.created_at
-                cdown = str(time_difference)
-                if time_difference > MAX_TIME:
-                    messages.add_message(request, messages.ERROR, "Sizga test yechish uchun berilgan vaqt tugadi.")
+        # 3️⃣ Foydalanuvchi uchun qolgan vaqt
+        MAX_TIME = timezone.timedelta(minutes=5)
+        time_passed = timezone.now() - relation.created_at
+        time_left = MAX_TIME - time_passed
 
-                    return redirect(request.path)
-            else:
-                contest.created_at = now()
-                contest.save()
+        # 4️⃣ Agar TIME OVER bo‘lsa — DISQUALIFY QILAMIZ
+        if time_left.total_seconds() <= 0:
+            relation.is_disqualified = True
+            relation.disqualified_at = timezone.now()
+            relation.disqualified_reason = "Vaqti tugadi"
+            relation.save()
 
-        return fn(request, cdown=cdown, *args, **kwargs)
+            messages.error(request, "Sizning shaxsiy kontest vaqtingiz tugadi!")
+            return redirect("kontest")
+        total_seconds = int(time_left.total_seconds())
+        hours = total_seconds // 3600
+        minutes = (total_seconds % 3600) // 60
+        seconds = total_seconds % 60
+        # 5️⃣ Vaqtni konteksga berish
+        kwargs["cdown"] = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+
+        return view_func(request, *args, **kwargs)
 
     return wrapper

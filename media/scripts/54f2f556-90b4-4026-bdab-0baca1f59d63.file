@@ -1,0 +1,7 @@
+#include <bits/stdc++.h>
+usind namespace std;
+int main() {
+    int a, b;
+    cin >> a >> b;
+    cout << a + b;
+}

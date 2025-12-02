@@ -1,0 +1,4 @@
+A = int(input("A ni kiriting: "))
+
+yigindi = A + B
+print("Yig'indi:", yigindi)

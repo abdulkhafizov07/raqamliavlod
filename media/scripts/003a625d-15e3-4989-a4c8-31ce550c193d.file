@@ -1,0 +1,8 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    // Kodingizni bu yerga yozing
+    
+    return 0;
+}
