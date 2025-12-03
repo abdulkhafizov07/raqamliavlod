@@ -4,7 +4,7 @@
     "pk": 3,
     "fields": {
       "title": "Bog'ni asrab qol",
-      "kirish": "Kirish faylining yagona satrida uchta butun son, N(100 ≤ N ≤ 10000), x(1 ≤ x ≤ N) va y(1 ≤ y ≤ N) sonlari kiritiladi.",
+      "kirish": "$\frac{A}{B}$ ning to'g'ri kasrini aniqlang.",
       "chiqish": "Ochofat payxon qilishi mumkin bo'lgan eng kam parniklar soni.",
       "description": "Sizning N ta qator va N ta ustunda joylashgan parniklardan iborat bog'ingiz bor. Ochofat har safar turgan parnikdan unga qo'shni bo'lgan parnikka sakraydi, lekin faqat shu parnikda oldin bo'lmagan bo'lsa. Siz unga qaysi parnikka sakrashni ko'rsatishingiz mumkin. Vazifa: minimal nechta parnikdagi hosil nobud bo'lishini aniqlash.",
       "hotira": 150,

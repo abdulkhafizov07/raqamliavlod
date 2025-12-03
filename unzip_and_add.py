@@ -2,77 +2,55 @@ import zipfile
 import os
 from pathlib import Path
 
-def read_zip_files(zip_path, target_folder="extracted"):
-    """
-    ZIP faylini ochib, ichidagi barcha .in fayllarini o'qish
-    
-    Args:
-        zip_path: ZIP fayl yo'li
-        target_folder: ZIPdan chiqarilgan fayllar saqlanadigan papka
-    
-    Returns:
-        dict: File nomi -> kontent
-    """
-    extracted_data = {}
-    
-    # Target folder'ni yaratish
-    os.makedirs(target_folder, exist_ok=True)
-    
-    try:
-        # ZIP faylini ochish
-        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-            # Barcha fayllar ro'yxati
-            file_list = zip_ref.namelist()
-            print(f"ZIP ichida {len(file_list)} ta fayl topildi")
-            
-            # Faqat .in fayllarini olish
-            in_files = [f for f in file_list if f.endswith('.in')]
-            print(f"{len(in_files)} ta .in fayli topildi")
-            
-            # Har bir .in faylini o'qish
-            for in_file in in_files:
-                # Faylni extract qilish
-                extracted_path = zip_ref.extract(in_file, target_folder)
-                
-                # Faylni o'qish
-                with open(extracted_path, 'r', encoding='utf-8') as f:
-                    content = f.read().strip()
-                    
-                # Ma'lumotlarni dictionary'ga saqlash
-                extracted_data[in_file] = content
-                
-                # Fayl nomi va kontentini chiqarish
-                print(f"\n[file name]: {in_file}")
-                print(f"[file content begin]")
-                print(content)
-                print(f"[file content end]")
-                
-                # Extract qilingan faylni o'chirish (agar kerak bo'lmasa)
-                # os.remove(extracted_path)
-                
-        return extracted_data
-        
-    except zipfile.BadZipFile:
-        print(f"Xatolik: {zip_path} - noto'g'ri ZIP fayl")
-        return None
-    except Exception as e:
-        print(f"Xatolik yuz berdi: {str(e)}")
-        return None
+import django
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+django.setup()
 
-# Foydalanish misoli:
-if __name__ == "__main__":
-    # ZIP fayl yo'li
-    zip_file_path = "~/Downloads/iMe Desktop/A.zip"  # O'zingizning ZIP faylingiz yo'li
-    
-    # Agar fayl mavjud bo'lsa
-    if os.path.exists(zip_file_path):
-        results = read_zip_files(zip_file_path)
-        
-        if results:
-            print(f"\n\nJami {len(results)} ta .in fayli muvaffaqiyatli o'qildi")
-            
-            # Natijalarni saqlash
-            for filename, content in results.items():
-                print(f"\n{filename}: {content[:50]}...")  # Faqat 50 ta belgi
-    else:
-        print(f"Xatolik: {zip_file_path} fayli topilmadi")
+from kontest.models import Test, Masala  # <-- to‘g‘ri app nomini yozing
+
+
+def load_tests_from_zip(zip_path, masala_id, target_folder="extracted"):
+    os.makedirs(target_folder, exist_ok=True)
+
+    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+        file_list = zip_ref.namelist()
+
+        in_files = sorted([f for f in file_list if f.endswith('.in')])
+        out_files = sorted([f for f in file_list if f.endswith('.out')])
+
+        print(f"Topildi: {len(in_files)} ta .in fayl, {len(out_files)} ta .out fayl")
+
+        masala = Masala.objects.get(id=masala_id)
+
+        created_count = 0
+
+        for in_file in in_files:
+            base = in_file.replace('.in', '')     # 010.in → 010
+            out_file = f"{base}.out"
+
+            if out_file not in out_files:
+                print(f"⚠️ Juft topilmadi: {in_file} -> {out_file}")
+                continue
+
+            # ichidan content o‘qish
+            in_path = zip_ref.extract(in_file, target_folder)
+            out_path = zip_ref.extract(out_file, target_folder)
+
+            with open(in_path, 'r', encoding='utf-8') as f:
+                input_data = f.read().strip()
+
+            with open(out_path, 'r', encoding='utf-8') as f:
+                output_data = f.read().strip()
+
+            # Django'ga saqlash
+            Test.objects.create(
+                masala=masala,
+                kirish=input_data,
+                output=output_data,
+                hidden=True
+            )
+
+            created_count += 1
+            print(f"✓ Yaratildi: {base} -> Test object")
+
+        print(f"\nJAMI {created_count} TA TEST QO‘SHILDI.")

@@ -1,0 +1,13 @@
+N, M = map(int, input().split())
+
+if M > N:          # Qizlar ko‘p
+    print("A 1")
+    print("1 2 3")
+
+elif N > M:        # O‘g‘illar ko‘p
+    print("B 1")
+    print("2 1 3")
+
+else:              # Teng
+    print("C 0")
+    print("1 1 0")

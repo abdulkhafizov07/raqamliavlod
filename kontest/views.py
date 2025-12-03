@@ -238,11 +238,12 @@ def kontest_qatnashuvchilar(request, kontest_id):
 @csrf_exempt
 @login_required(login_url="login", redirect_field_name='next')
 @check_contest_time
-def masala_detail(request, masala_id, cdown="00:01:00"):
+def masala_detail(request, masala_id):
     language = request.GET.get("language", "C++")
     masala = get_object_or_404(Masala, id=masala_id)
     kontest = get_object_or_404(Kontest, id=masala.kontest.id)
-
+    print(request.cdown_seconds)
+    print(request.cdown)
     if masala.kontest:
         if masala.kontest.end_time < timezone.now():
             return HttpResponse("Kontest yakunlangan")
@@ -267,14 +268,14 @@ def masala_detail(request, masala_id, cdown="00:01:00"):
             print(form.errors)
     user_results = UserMasalaRelation.objects.filter(user=request.user, masala=masala)
 
-    time_content = f"<div id=\"timer\">{cdown}</div>"
-    print(cdown)
+    time_content = f"<div id=\"timer\">{request.cdown}</div>"
+
     return render(request, 'masala_detail.html', {
         'masala':masala,
         'kontest':kontest,
         'pagename':'kontest',
         'results':user_results,
-        'cdown': cdown,
+        'cdown': request.cdown,
         'user_time_content_html': time_content,
         "language":language
     })

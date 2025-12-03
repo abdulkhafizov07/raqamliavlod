@@ -1,0 +1,17 @@
+n, m = map(int, input().split())
+C, x = map(str, input().split())
+x = int(x)
+a, b, c = 0, 0, 0
+if C == 'A':
+  a = x
+  c = n - 2 * a
+  b = (m - c) // 2
+elif C == 'B':
+  b = x
+  c = m - 2 * b
+  a = (n - c) // 2
+else:
+  c = x
+  a = (n - c) // 2
+  b = (m - c) // 2
+print(a, b, c)

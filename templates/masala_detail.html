@@ -9,6 +9,7 @@
         <div class="__className_d9825c w-full h-full 2xl:container flex flex-col box-border overflow-hidden justify-start items-start p-5 md:p-10 lg:p-10">
             <div class="w-full h-full flex flex-col box-border justify-start items-start gap-y-6 md:p-5 lg:p-5 overflow-hidden">
                 <h1 class="w-max h-max text-base md:text-lg lg:text-xl font-semibold">DG Kontest</h1>
+
                 <div class="flex flex-row justify-start items-start w-full h-fit">
                     <div class="flex flex-row w-full justify-start items-start h-full overflow-x-scroll scrollbar-none gap-3 scroll-smooth p-2">
                         <a href="{% url 'kontest-detail' kontest.id %}" type="button" aria-label="Go to page" class="medium-16 flex items-center justify-between rounded-md px-6 py-2 text-left border text-gray-500 transition-all duration-100 ease-in hover:text-primary">
@@ -26,16 +27,21 @@
                         <a href="{% url 'turnir_jadvali' kontest.id %}" type="button" aria-label="Go to page" class="medium-16 flex items-center justify-between rounded-md px-6 py-2 text-left border text-gray-500 transition-all duration-100 ease-in hover:text-primary">
                             <div class="flex gap-3 whitespace-nowrap">Turnir jadvali</div>
                         </a>
+                        
+                <!-- Timer -->
+                {% if cdown %}
+                <button id="countdown-timer" style="background-color:red" 
+                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                <span id="qv" class="font-bold">Qolgan vaqt: </span>
+                                
+                                <span id="timer">{{ cdown }}</span>
+                            </button>   
+                    
+                {% endif %}
                     </div>
                 </div>
 
-                <!-- Timer -->
-                {% if cdown %}
-                    <div id="countdown-timer" class="fixed top-4 right-4 bg-red-500 text-black px-4 py-2 rounded-lg shadow-lg z-50">
-                        <span class="font-bold">Qolgan vaqt: </span>
-                        <span id="timer">{{ cdown }}</span>
-                    </div>
-                {% endif %}
+
 
                 <div class="w-full h-full flex flex-col justify-start items-start overflow-x-scroll scrollbar-thin scrollbar-track-slate-300 scrollbar-thumb-slate-600 p-3 gap-y-5">
                     <div class="min-w-fit w-full h-full flex flex-col justify-start items-center gap-y-5 box-border break-words overflow-y-scroll scrollbar-thin scrollbar-track-slate-300 scrollbar-thumb-slate-600 bg-white rounded-lg p-8 border">
@@ -272,6 +278,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Timer JavaScript
     const timerElement = document.getElementById('timer');
+    const qv = document.getElementById('qv');
     const countdownContainer = document.getElementById('countdown-timer');
 
     if (timerElement && timerElement.textContent.includes(':')) {
@@ -291,9 +298,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     timerElement.textContent = "00:00:00";
                     
                     if (countdownContainer) {
-                        countdownContainer.innerHTML = `
-                            <span class="font-bold">⏰ Vaqt tugadi!</span>
-                        `;
+                        qv.textContent = ``
+                        timerElement.textContent = `⏰ Vaqt tugadi!`
                         countdownContainer.classList.add('bg-red-700');
                     }
                     
