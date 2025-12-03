@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div
+    class="w-full h-full flex flex-col md:flex-row lg:flex-row flex-nowrap justify-between items-center md:justify-start md:items-start lg:justify-start lg:items-start overflow-hidden box-border">
+    {% include 'left_menu.html' %}
+    <div
+        class="w-full h-full min-h-max flex flex-col justify-between items-start overflow-auto bg-[#F4F4F4] gap-5 box-border order-1 md:order-2 lg:order-2 xl:order-2 2xl-order-2 relative">
+        <div
+            class="__className_d9825c w-full h-full 2xl:container flex flex-col box-border overflow-hidden justify-start items-start p-5 md:p-10 lg:p-10">
+            <div
+                class="w-full h-full flex flex-col box-border justify-start items-start gap-y-6 md:p-5 lg:p-5 overflow-hidden">
+                <h1 class="w-max h-max text-base md:text-lg lg:text-xl font-semibold">DG Kontest</h1>
+                <div class="flex w-full overflow-y-scroll scrollbar-none gap-3">
+                    <a aria-label="Go to page"
+                        class="text-lg flex items-center justify-between px-6 py-2 text-left transition-all duration-100 ease-in hover:text-primary rounded-md border text-gray-500"
+                        href="{% url 'kontest' %}">
+                        <div class="flex gap-3 whitespace-nowrap">🔥 Top</div>
+                    </a>
+                    <a aria-label="Go to page"
+                        class="text-lg flex items-center justify-between px-6 py-2 text-left transition-all duration-100 ease-in hover:text-primary rounded-md border text-gray-500"
+                        href="{% url 'musobaqalar' %}">
+                        <div class="flex gap-3 whitespace-nowrap">🏆 Musobaqalar</div>
+                    </a>
+                    <a aria-label="Go to page"
+                        class="text-lg flex items-center justify-between px-6 py-2 text-left transition-all duration-100 ease-in hover:text-primary rounded-md border text-gray-500 bg-green text-white"
+                        href="{% url 'masalalar' %}">
+                        <div class="flex gap-3 whitespace-nowrap">🎮 Masalalar</div>
+                    </a>
+                    <a aria-label="Go to page"
+                        class="text-lg flex items-center justify-between px-6 py-2 text-left transition-all duration-100 ease-in hover:text-primary rounded-md border text-gray-500"
+                        href="{% url 'reyting' %}">
+                        <div class="flex gap-3 whitespace-nowrap">👥 Reyting</div>
+                    </a>
+                </div>
+
+                <div id="Musobaqalar" class="w-full h-full flex flex-col justify-start items-start overflow-x-auto  gap-y-5">
+                    <div class="w-full h-full flex flex-col justify-start items-start rounded-xl overflow-y-scroll scrollbar-none gap-5">
+                        {% for masala in page %}
+                            <a class="w-full flex flex-col justify-start items-start bg-white rounded-md py-6 px-7 gap-5" href="{% url 'masala-detail' masala.id %}">
+                                <h1 class="text-lg md:text-xl lg:text-2xl font-semibold">#{{ masala.id }} {{ masala.title }}</h1>
+                                <div class="w-full flex flex-row flex-wrap justify-start items-start gap-5">
+                                    <section class="flex flex-row justify-center items-center gap-2">
+                                        Qiyinchilik: <span class="text-white bg-green-400 rounded-lg px-[10px] py-1">{{ masala.qiyinchilik }}</span>
+                                    </section>
+                                    <section class="flex flex-row justify-center items-center gap-2">
+                                        Xotira: <span class="px-[10px] py-1 bg-blue text-white rounded-lg">{{ masala.hotira }}KB</span>
+                                    </section>
+                                </div>
+                                <div class="text-[#8B92A5] flex flex-row justify-end items-center w-full">
+                                    <button class="flex flex-row justify-center items-center gap-1 disabled:opacity-20 disabled:cursor-not-allowed">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18">
+                                            <path fill-rule="evenodd" d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                    <div class="w-full flex justify-center items-center box-border">
+                        <div
+                            class=" box-border flex flex-row justify-start items-center rounded-lg  h-max  w-max overflow-x-scroll  scrollbar-none scroll-smooth">
+                            <ul class="box-border flex max-w-[1200px] w-max items-center justify-between font-body py-2 scrollbar-none gap-x-2 !list-none" role="navigation" aria-label="Pagination">
+                                <li class="h-10 w-10 {% if not page.has_previous %}disabled{% endif %}">
+                                    <a class="h-full w-full  flex items-center justify-center" href="{% if page.has_previous %}?page={{ page.previous_page_number }}{% endif %}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" width="20" color="rgb(147 51 234 / var(--tw-border-opacity))">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"></path>
+                                        </svg>
+                                    </a>
+                                </li>
+                                {% for p in pages %}
+                                    {% if forloop.counter < 10 %}
+                                        <li class="h-10 w-10 text-black rounded-md h-10 w-12 {% if forloop.counter == page.number %}bg-white{% endif %}">
+                                            <a href="?page={{ forloop.counter }}" class="h-full w-full  flex items-center justify-center">{{ forloop.counter }}</a>
+                                        </li>
+                                    {% endif %}
+                                    {% if total_pages > 9 and total_pages != 10 %}
+                                        <li class="h-10 w-10 text-black rounded-md h-10 w-12 {% if forloop.counter == page.number %}bg-white{% endif %}">
+                                            <a class="h-full w-full  flex items-center justify-center">...</a>
+                                        </li>
+                                        <li class="h-10 w-10 text-black rounded-md h-10 w-12 {% if forloop.counter == page.number %}bg-white{% endif %}">
+                                            <a class="h-full w-full  flex items-center justify-center">{{ total_page_count }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                                <li class="h-10 w-10">
+                                    <a class="h-full w-full  flex items-center justify-center" href="{% if page.has_next %}?page={{ page.next_page_number }}{% endif %}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" width="20" color="rgb(147 51 234 / var(--tw-border-opacity))">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
+                                        </svg>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="w-full hidden md:flex lg:flex justify-center items-center">
+            {% include 'footer.html' %}
+        </section>
+    </div>
+</div>
+{% endblock content %}

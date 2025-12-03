@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="w-full h-full flex flex-col md:flex-row lg:flex-row flex-nowrap justify-between items-center md:justify-start md:items-start lg:justify-start lg:items-start overflow-hidden box-border">
+    {% include 'left_menu.html' %}
+    <div class="w-full h-full min-h-max flex flex-col justify-between items-start overflow-auto bg-[#F4F4F4] gap-5 box-border order-1 md:order-2 lg:order-2 xl:order-2 2xl-order-2 relative">
+        <div class="__className_d9825c w-full h-full 2xl:container flex flex-col box-border overflow-hidden justify-start items-start p-5 md:p-10 lg:p-10">
+            <div class="w-full h-full flex flex-col box-border justify-start items-start gap-y-6 md:p-5 lg:p-5 overflow-hidden">
+                <h1 class="w-max h-max text-base md:text-lg lg:text-xl font-semibold">DG Kontest</h1>
+                <div class="w-full h-full max-w-full flex flex-col justify-start items-start gap-y-5 box-border">
+                    <div class="flex flex-row justify-start items-start w-full h-fit">
+                        <div class="flex flex-row w-full justify-start items-start h-full overflow-x-scroll scrollbar-none gap-3 scroll-smooth p-2">
+                            <a href="{% url 'kontest-detail' kontest.id %}" type="button" aria-label="Go to page" class="medium-16 flex items-center justify-between rounded-md px-6 py-2 text-left border text-gray-500 transition-all duration-100 ease-in hover:text-primary">
+                                <div class="flex gap-3 whitespace-nowrap">Olimpiada haqida</div>
+                            </a>
+                            <a href="{% url 'kontest-masalalar' kontest.id %}" type="button" aria-label="Go to page" class="medium-16 flex items-center justify-between rounded-md px-6 py-2 text-left border text-gray-500 transition-all duration-100 ease-in hover:text-primary bg-green text-white">
+                                <div class="flex gap-3 whitespace-nowrap">Masalalar</div>
+                            </a>
+                            <a href="{% url 'kontest-urinishlar' kontest.id %}" type="button" aria-label="Go to page" class="medium-16 flex items-center justify-between rounded-md px-6 py-2 text-left border text-gray-500 transition-all duration-100 ease-in hover:text-primary">
+                                <div class="flex gap-3 whitespace-nowrap">Urinishlar</div>
+                            </a>
+                            <a href="{% url 'kontest-qatnashuvchilar' kontest.id %}" type="button" aria-label="Go to page" class="medium-16 flex items-center justify-between rounded-md px-6 py-2 text-left border text-gray-500 transition-all duration-100 ease-in hover:text-primary">
+                                <div class="flex gap-3 whitespace-nowrap">Qatnashuvchilar</div>
+                            </a>
+                            <a href="{% url 'turnir_jadvali' kontest.id %}" type="button" aria-label="Go to page" class="medium-16 flex items-center justify-between rounded-md px-6 py-2 text-left border text-gray-500 transition-all duration-100 ease-in hover:text-primary">
+                                <div class="flex gap-3 whitespace-nowrap">Turnir jadvali</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="w-full h-max flex flex-row justify-start items-start bg-white p-5 rounded-xl box-border overflow-hidden">
+                        <div class="w-full h-max flex flex-col justify-start items-start px-auto">
+                            <div class="flex h-full w-full flex-col flex-nowrap box-border">
+                                <div class=" box-border h-max  w-full overflow-x-scroll scrollbar-none bg-white">
+                                    <table class="box-border min-w-[1200px] w-full flex-col flex-nowrap items-start justify-center font-body">
+                                        <thead class="h-max min-h-[52px] w-full rounded-sm text-gray-400 font-normal">
+                                            <tr class="flex h-full w-full flex-row items-center justify-evenly gap-y-6 rounded-sm text-center">
+                                                <th colspan="1" class="flex min-h-[40px] w-full min-w-[160px] flex-wrap items-center justify-center py-2 text-center text-lg">
+                                                    <button type="button" aria-label="Sort" class="cursor-pointer select-none">ID</button>
+                                                </th>
+                                                <th colspan="1" class="flex min-h-[40px] w-full min-w-[160px] flex-wrap items-center justify-center py-2 text-center text-lg">
+                                                    <button type="button" aria-label="Sort" class="cursor-pointer select-none">Nomi</button>
+                                                </th>
+                                                <th colspan="1" class="flex min-h-[40px] w-full min-w-[160px] flex-wrap items-center justify-center py-2 text-center text-lg">
+                                                    <button type="button" aria-label="Sort" class="cursor-pointer select-none">Yuborilgan barcha yechimlar</button>
+                                                </th>
+                                                <th colspan="1" class="flex min-h-[40px] w-full min-w-[160px] flex-wrap items-center justify-center py-2 text-center text-lg">
+                                                    <button type="button" aria-label="Sort" class="cursor-pointer select-none">To'g'ri yechimlar</button>
+                                                </th>
+                                                <th colspan="1" class="flex min-h-[40px] w-full min-w-[160px] flex-wrap items-center justify-center py-2 text-center text-lg">
+                                                    <button type="button" aria-label="Sort" class="cursor-pointer select-none">Qatnashuvchilar soni</button>
+                                                </th>
+                                                <th colspan="1" class="flex min-h-[40px] w-full min-w-[160px] flex-wrap items-center justify-center py-2 text-center text-lg">
+                                                    <button type="button" aria-label="Sort" class="cursor-pointer select-none">Qiyinchilik turi</button>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="h-max w-full">
+                                            {% for masala in kontest.masalalar.all %}
+                                                <tr id="masala_{{masala.id}}" class="flex h-max w-full cursor-pointer flex-row items-center justify-evenly rounded-sm text-center hover:bg-slate-100">
+                                                    <td class="box-content flex h-fit min-h-[40px] w-full min-w-[160px] flex-wrap items-center justify-center break-words text-center text-base">
+                                                        {{ masala.id }}
+                                                    </td>
+                                                    <td class="box-content flex h-fit min-h-[40px] w-full min-w-[160px] flex-wrap items-center justify-center break-words text-center text-base">
+                                                        <a href="{% url 'masala-detail' masala.id %}">{{ masala.title }}</a>
+                                                    </td>
+                                                    <td class="box-content flex h-fit min-h-[40px] w-full min-w-[160px] flex-wrap items-center justify-center break-words text-center text-base">
+                                                        {{ masala.ishlaganlar.count }}
+                                                    </td>
+                                                    <td class="box-content flex h-fit min-h-[40px] w-full min-w-[160px] flex-wrap items-center justify-center break-words text-center text-base">
+                                                        {{ masala.togri_yechimlar }}
+                                                    </td>
+                                                    <td class="box-content flex h-fit min-h-[40px] w-full min-w-[160px] flex-wrap items-center justify-center break-words text-center text-base">
+                                                        {{ masala.qatnashuvchilar }}
+                                                    </td>
+                                                    <td class="box-content flex h-fit min-h-[40px] w-full min-w-[160px] flex-wrap items-center justify-center break-words text-center text-base">
+                                                        {{ masala.qiyinchilik }}
+                                                    </td>
+                                                </tr>
+                                                <script>
+                                                    document.getElementById("masala_{{masala.id}}").addEventListener("click", function() {
+                                                        window.location.href = "{% url 'masala-detail' masala.id %}";
+                                                    });
+                                                </script>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="w-full hidden md:flex lg:flex justify-center items-center">
+            {% include 'footer.html' %}
+        </section>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load increment %}
+
+{% block content %}
+<style>
+    .detailcontent {
+        background-color: #F4F4F4;
+    }
+
+    iframe {
+        height: 630px;
+        width: 99%;
+    }
+
+    .video {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .comment-btn{
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+<div
+    class="detailcontent w-full h-full flex flex-col md:flex-row lg:flex-row flex-nowrap justify-between items-center md:justify-start md:items-start lg:justify-start lg:items-start overflow-hidden box-border">
+    <div class="min-w-[280px] 2xl:container w-full h-full flex flex-row flex-wrap justify-start items-start gap-y-5">
+        <div class="w-full h-full flex flex-col md:flex-row lg:flex-row justify-start md:justify-center lg:justify-center items-start md:items-start lg:items-start  overflow-hidden box-border md:overflow-y-hidden lg:overflow-y-hidden scrollbar-none relative w-full md:min-w-2/3 lg:min-w-2/3">
+            {% include 'course_detail_left.html' %}
+            <div class="w-full h-[70%] md:h-full lg:h-full order-1 md:order-2 lg:order-2 flex flex-col justify-start items-center p-3 md:p-10 lg:p-20 overflow-y-scroll scrollbar-none gap-5 overflow-x-hidden" style="padding: 65px;">
+                <div
+                    class="w-full h-max flex flex-col md:flex-row lg:flex-row justify-between items-end md:items-center lg:items-center gap-2">
+                    <h1 class="w-full md:w-max lg:w-max text-sm md:text-lg lg:text-xl font-semibold">{{ course_part.title }}</h1>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="text" value="{{ course_part.id }}" name="complated" style="display: none;">
+                        <button type="submit"
+                            class="py-1 px-3 rounded-lg border disabled:opacity-20 disabled:cursor-not-allowed bg-blue text-white hover:bg-blue hover:text-white text-sm md:text-base lg:text-lg flex gap-1 whitespace-nowrap justify-center items-center">
+                            keyingisi
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                                stroke="currentColor" aria-hidden="true" width="15">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+                <div class="w-full h-max flex flex-col justify-start items-start rounded-lg bg-white">
+                    <div class="w-full h-max p-2">
+                        <div class="video">
+                            <iframe src="{{ course_part.video_link }}" title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white w-full h-full flex flex-row flex-nowrap justify-start items-center p-3 b-5">
+                    <button onclick="about()" type="button"
+                        class="about-btn py-2 md:py-2 lg:py-2.5 px-3 rounded-xl flex flex-row justify-center items-center gap-2 whitespace-nowrap bg-purple-light text-purple">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" aria-hidden="true" width="20">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z">
+                            </path>
+                        </svg>
+                        <h1 class="text-sm md:text-md lg:text-md font-semibold">Dars haqida</h1>
+                    </button>
+                    <button onclick="comment()" type="button"
+                        class="comment-btn py-2 md:py-2 lg:py-2.5 px-3 rounded-xl flex flex-row justify-center items-center gap-2 whitespace-nowrap ml-5 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" aria-hidden="true" width="20">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z">
+                            </path>
+                        </svg>
+                        <h1 class="text-sm md:text-md lg:text-md font-semibold">Izohlar</h1>
+                    </button>
+                </div>
+                <div id="description" class="w-full flex flex-row justify-center items-center p-5 rounded-2xl bg-white">
+                    <div class="w-full flex flex-col justify-start items-start gap-2">
+                        <h1 class="text-base md:text-lg lg:text-xl font-semibold">{{ course_part.title }}</h1>
+                        <p class="text-sm md:text-md lg:text-md text-gray-600 whitespace-wrap break-words break-all">
+                            Description:
+                            {{ course_part.description }}</p>
+                    </div>
+                </div>
+
+                <div id="comments" class="w-full flex flex-row justify-center items-center p-5 rounded-2xl bg-white" style="display: none;">
+                    {% for comment in course_part.comments.all %}
+                        <div>
+                            <p style="font-weight: 400;">{{ comment.author }}</p>
+                            <p>{{ comment.text }} | {{ comment.time }}</p>
+                            <hr>
+                        </div>
+                    {% endfor %}
+                    <div class="comment-btn">
+                        <div class="div"></div>
+                        <div class="div">
+                            <button id="writecomment-btn" class="bg-blue p-3 text-white rounded-xl">Write Comment</button>
+                        </div>
+                    </div>
+                </div>
+                {% if user.is_authenticated %}
+                    <div id="write-comment" style="display: none;" class="w-full flex flex-row justify-center items-center p-5 rounded-2xl bg-white">
+                        <style>
+                            #write-comment form, #write-comment form input{
+                                width:100%;
+                                height:100%;
+                                border:none;
+                                position: relative;
+                                outline: none;
+                            }
+                            
+                            #write-comment form button{
+                                position: absolute;
+                                bottom:-180%;
+                                right:0;
+                            }
+                        </style>
+                        {{ form.as_p }}
+                        <form method="post">{% csrf_token %}
+                            <input type="text" name="text" id="" placeholder="Fikr qoldirish">
+                            <button type="submit" class="bg-green  p-3 text-white rounded-xl">Fikr qoldirish</button>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    about_btn = document.querySelector('.about-btn')
+    comment_btn = document.querySelector('.comment-btn')
+    comments = document.querySelector('#comments')
+    description = document.querySelector('#description')
+    function about(){
+        about_btn.classList.add('bg-purple-light')
+        about_btn.classList.add('text-purple')
+        comment_btn.classList.remove('bg-purple-light')
+        comment_btn.classList.remove('text-purple')
+
+        description.style.display = 'inline-block'
+        comments.style.display = 'none'
+    }
+    function comment(){
+        about_btn.classList.remove('bg-purple-light')
+        about_btn.classList.remove('text-purple')
+        comment_btn.classList.add('bg-purple-light')
+        comment_btn.classList.add('text-purple')
+        description.style.display = 'none'
+        comments.style.display = 'inline-block'
+    }
+    
+    document.querySelector('#writecomment-btn').addEventListener('click', () => {
+        document.querySelector('#write-comment').style.display = 'inline-block'
+    })
+</script>
+
+
+{% endblock content %}

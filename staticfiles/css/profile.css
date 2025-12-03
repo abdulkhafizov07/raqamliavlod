@@ -1,0 +1,183 @@
+.img-cont img{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+/* 
+html, body {
+    height: unset !important;
+    overflow-y: unset !important;
+} */
+
+* {
+    box-sizing: border-box;
+}
+
+#fform {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 20px 50px;
+}
+
+#fform * {
+    list-style: none;
+}
+
+.color {
+    color: #1977DC;
+}
+
+table {
+    width: 450px;
+}
+
+table tr {
+    margin: 0 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.error-tr {
+    margin: 0;
+}
+
+td {
+    color: #8C8D9B;
+}
+
+td input {
+    padding: 7px;
+    border-radius: 7px;
+    outline: none;
+    height: 40px;
+    background-color: #fff;
+    width: 250px;
+
+}
+
+td input:focus,
+td input:valid {
+    border: 2px solid #1977DC;
+}
+
+td select {
+    padding: 7px;
+    border-radius: 7px;
+    outline: none;
+    width: 250px;
+    height: 40px;
+}
+
+td select:focus,
+td input:valid {
+    border: 2px solid #1977DC;
+}
+
+.edit-profile {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-profile ul li button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 5px;
+    color: #2B385D;
+    margin-top: 5px;
+
+    &:hover {
+        text-decoration: underline;
+    }
+
+    img {
+        width: 25px;
+    }
+}
+
+
+#rasm_label {
+    width: 250px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    border: 2px solid #1977DC;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#rasm_label:hover {
+    background-color: #1977DC;
+    color: #fff;
+}
+
+body,
+html {
+    overflow-y: unset;
+    height: unset !important;
+}
+
+#save-button {
+    background-color: #1977DC;
+    border-radius: 10px;
+    width: 200px;
+    height: 40px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+}
+
+.passwords {
+    display: none;
+}
+
+@media screen and (max-width: 500px) {
+    table {
+        width: 100%;
+    }
+
+    table tr {
+        flex-direction: column;
+        row-gap: 5px;
+    }
+
+    table tr td {
+        width: 100%;
+    }
+
+    #fform {
+        flex-direction: column-reverse;
+    }
+
+    .img-cont {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+        }
+    }
+    .img-cont img{
+        height: 200px !important;
+        width: 200px !important;
+        border-radius: 50% !important;
+    }
+
+    input,
+    td select {
+        width: 100%;
+    }
+
+    #rasm_label {
+        width: 100%;
+    }
+}

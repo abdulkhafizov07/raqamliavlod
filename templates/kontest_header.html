@@ -1,0 +1,22 @@
+<div class="flex flex-row w-full justify-start items-start h-full overflow-x-scroll scrollbar-none gap-3 scroll-smooth p-2">
+    <a id="haqida" href="{% url 'kontest-detail' kontest.id %}" type="button" aria-label="Go to page" class="medium-16 flex items-center justify-between rounded-md px-6 py-2 text-left border text-gray-500 transition-all duration-100 ease-in hover:text-primary">
+        <div class="flex gap-3 whitespace-nowrap">Olimpiada haqida</div>
+    </a>
+    {% if kontest.is_started %}
+        <a id="masalalar" href="{% url 'kontest-masalalar' kontest.id %}" aria-label="Go to page" class="medium-16 flex items-center justify-between rounded-md px-6 py-2 text-left border text-gray-500 transition-all duration-100 ease-in hover:text-primary">
+            <div class="flex gap-3 whitespace-nowrap">Masalalar</div>
+        </a>
+    {% endif %}
+    <a id="urinishlar" href="{% url 'kontest-urinishlar' kontest.id %}" type="button" aria-label="Go to page" class="medium-16 flex items-center justify-between rounded-md px-6 py-2 text-left border text-gray-500 transition-all duration-100 ease-in hover:text-primary">
+        <div class="flex gap-3 whitespace-nowrap">Urinishlar</div>
+    </a>
+    <a id="qatnashuvchilar" href="{% url 'kontest-qatnashuvchilar' kontest.id %}" type="button" aria-label="Go to page" class="medium-16 flex items-center justify-between rounded-md px-6 py-2 text-left border text-gray-500 transition-all duration-100 ease-in hover:text-primary">
+        <div class="flex gap-3 whitespace-nowrap">Qatnashuvchilar</div>
+    </a>
+    <a id="turnir_jadvali" href="{% url 'turnir_jadvali' kontest.id %}" aria-label="Go to page" class="medium-16 flex items-center justify-between rounded-md px-6 py-2 text-left border text-gray-500 transition-all duration-100 ease-in hover:text-primary">
+        <div class="flex gap-3 whitespace-nowrap">Turnir jadvali</div>
+    </a>
+</div>
+<script>
+    document.getElementById('{{ active_tab }}').classList.add('bg-green', 'text-white');
+</script>

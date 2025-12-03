@@ -1,0 +1,36 @@
+{% load course_tags %}
+<style>
+    a.w-full{
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+</style>
+<div id="cont" class="none-text h-[30%] md:h-full lg:h-full flex flex-col justify-start items-start gap-4 order-2 md:order-1 lg:order-1 overflow-y-scroll md:overflow-y-scroll lg:overflow-y-scroll scrollbar-thin scrollbar-thumb-blue box-border bg-white relative w-full md:w-[320px] lg:w-[320px]">
+    <a href="/" class="w-full flex flex-row items-center sticky -top-0 bg-white text-left gap-7 py-4 text-gray-600 border-2 border-white justify-start px-10">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" width="20">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"></path>
+        </svg>
+        <p class="text-sm md:text-base lg:text-lg">Orqaga qaytish</p>
+    </a>
+    <h1 class="w-full text-sm md:text-lg lg:text-lg font-semibold px-10">Kurs dasturi</h1>
+    <style>
+        .opacity-05{
+            opacity: 0.5;
+        }
+    </style>
+    {% for cp in course_part.course.parts.all %}
+        {% has_complated user cp as complated %}
+        <a href="{% url 'course-part-detail' cp.id %}" class="{% if not complated and cp != course_part %}opacity-05{% endif %} w-full flex-row items-center gap-2 py-6 whitespace-nowrap truncate border-l-4 border-transparent hover:text-purple {% if cp.id == course_part.id %}bg-purple-light text-purple border-l-4 !border-purple {% endif %} justify-start px-7">{{ cp.title }}</a>
+    {% endfor %}
+<script>
+    document.querySelectorAll('li').forEach((item) => {
+        item.addEventListener('click', (event) => {
+            document.querySelectorAll('li').forEach((item) => {
+                item.classList.remove('active')
+            })
+            item.classList = item.classList+" active"
+        })
+    })
+</script>
+</div>

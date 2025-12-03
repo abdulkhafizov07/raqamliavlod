@@ -1,0 +1,274 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'left_menu.html' %}
+
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<style>
+    .s-2 {
+        margin-left: 0 !important;
+    }
+    .swiper-container {
+        width: 100%;
+        height: auto;
+        position: relative;
+        cursor: pointer;
+    }
+    
+    .swiper-slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* margin: 0 20px; */
+    }
+    
+    .news-slide {
+        min-height: 199px;
+    }
+
+    .swiper-slide a {
+        height: 100%;
+    }
+
+    .swiper-button-next, .swiper-button-prev {
+        color: #fff;
+    }
+
+
+    
+    .pp-2, .n-2 {
+      background-color: #fff;
+      box-shadow: 0 0 0 2px #0000008a;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      transition: all .2s;
+    }
+
+    .pp-2:hover, .n-2:hover {
+      box-shadow: 0 0 0 5px #0000008a;
+    }
+    .pp-2 svg {
+      margin-left: -3px;
+    }
+
+    .n-2 svg {
+      margin-left: 3px;
+    }
+
+    .pp-2 svg path, .n-2 svg path {  
+      stroke: #0000008a;
+    }
+
+    .pp-2::after, .n-2::after {
+      content: "";
+    }
+
+    @media screen and (max-width: 500px) {
+        .swiper-slide {
+            margin: 0;
+        }
+
+        .swiper-button-next, .swiper-button-prev {
+            display: none;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .swiper-slide {
+            min-width: 150px; 
+        }
+    }
+    
+    @media (min-width: 768px) and (max-width: 1024px) {
+        .swiper-slide {
+            min-width: 200px;
+        }
+    }
+    
+    @media (min-width: 1024px) {
+        .swiper-slide {
+            min-width: 300px;
+        }
+    }
+</style>
+<div class="w-full h-full flex flex-col justify-between items-start overflow-auto bg-[#F4F4F4] gap-5 box-border order-1 md:order-2 lg:order-2 xl:order-2 2xl-order-2 relative">
+
+    <div style="height: unset;" class="min-w-[280px] h-full flex flex-row flex-wrap justify-start items-start p-3 gap-y-5 w-full ">
+        <div class="w-full h-full max-h-full flex flex-col justify-start items-start gap-5 overflow-y-scroll scrollbar-none p-0 md:p-8 lg:p-10 ">
+            <div class="w-full min-h-max flex flex-col justify-start items-start gap-5">
+                <h1 class="text-lg md:text-xl lg:text-2xl font-semibold">Dolzarb yangiliklar</h1>
+                <div class="w-full h-max flex flex-row justify-start items-start gap-3 overflow-x-scroll scrollbar-none">
+                    <div class="swiper-container news-swiper">
+                        <div class="swiper-wrapper">
+                            {% for new in news %}
+                            <div class="swiper-slide news-slide">
+                                <a href="{{ new.tg_url }}" class="flex flex-row justify-end items-end gap-2 rounded-3xl cursor-pointer relative box-border overflow-hidden">
+                                    <img alt="banner" loading="lazy" decoding="async" data-nimg="1" class="w-full h-full object-cover brightness-50 swiper-img" src="{{ new.image.url }}" style="color: transparent;">
+                                    <span class="w-full flex flex-col z-20 text-white absolute p-5">
+                                        <p class="text-base lg:text-lg xl:text-xl break-words w-full font-semibold truncate">{{ new.title }}</p>
+                                        <span class="w-full flex flex-row justify-start items-center gap-2 text-gray-400">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" width="18">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"></path>
+                                            </svg>
+                                            <p class="text-base lg:text-lg">{{ new.time.date }}</p>
+                                        </span>
+                                    </span>
+                                </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Swiper navigatsiya tugmalari -->
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full flex flex-col justify-start items-start gap-5 ">
+                <div class="w-full flex flex-row justify-start items-center">
+                    <h1 class="text-lg md:text-xl lg:text-2xl font-semibold">Yangi kurslar</h1>
+                </div>
+                <div class="w-full h-max flex flex-row justify-start items-start gap-3 overflow-x-scroll scrollbar-none">
+                    <div class="swiper-container mySwiper-2">
+            <div class="swiper-wrapper">
+                {% for course in courses %}
+                <div class="swiper-slide s-2">
+                    <a href="{% url 'course-part-detail' course.parts.all.0.id %}">
+                        <div class="w-full h-full flex flex-col">
+                            <img alt="course Image" loading="eager" width="320" height="200" 
+                                class="w-full h-48 object-cover rounded-lg" 
+                                src="{{ course.thumb.url }}">
+                            
+                            <section class="mt-3 flex flex-col flex-grow">
+                                <h1 class="text-lg font-semibold">{{ course.title }}</h1>
+                                <p class="text-base text-blue-500">{{ course.muallif }}</p>
+                                <p class="text-sm text-gray-400 mt-1">{{ course.time }}</p>
+                                
+                                <div class="mt-auto">
+                                    <p class="text-white py-2 px-3 text-center w-full rounded-lg bg-green-500">
+                                        Davom ettirish
+                                    </p>
+                                </div>
+                            </section>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Navigation buttons -->
+            <div class="swiper-button-next n-2">
+             <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M184 112l144 144-144 144"/></svg>
+            </div>
+            <div class="swiper-button-prev pp-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/></svg>
+            </div>
+        </div>
+                </div>
+                <div class="w-full flex flex-row justify-end items-center">
+                    <a href="/courses">
+                        <button class="min-w-[160px] rounded-md bg-white p-3 text-center flex flex-row justify-center items-center whitespace-nowrap gap-2">
+                            <h1 class="text-sm md:text-md lg:text-lg font-semibold flex">Barchasini ko'rish</h1>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" width="15">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
+                            </svg>
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="w-full hidden md:flex lg:flex justify-center items-center">
+        {% include 'footer.html' %}
+    </section>
+</div>
+
+
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<script>
+    var swiperNews = new Swiper('.news-swiper', {
+        loop: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        slidesPerView: 1,
+        spaceBetween: 10,
+        breakpoints: {
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+            },
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 30,
+            },
+            1440: {
+                slidesPerView: 4,
+                spaceBetween: 40,
+            }
+        }
+    });
+
+    var swiperCourses = new Swiper('.courses-swiper', {
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 10,
+        breakpoints: {
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 10,
+            },
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 20,
+            },
+            1444: {
+                slidesPerView: 4,
+                spaceBetween: 20,
+            },
+        },
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+            var swiper = new Swiper('.mySwiper-2', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                loop: true,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.n-2',
+                    prevEl: '.pp-2',
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                        spaceBetween: 30,
+                    },
+                    1440: {
+                        slidesPerView: 4,
+                        spaceBetween: 40,
+                    }
+                }
+            });
+        });
+</script>
+
+{% endblock %}

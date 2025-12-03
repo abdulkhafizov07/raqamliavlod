@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="w-full h-full flex flex-col md:flex-row lg:flex-row flex-nowrap justify-between items-center md:justify-start md:items-start lg:justify-start lg:items-start overflow-hidden box-border">
+    {% include 'left_menu.html' %}
+    <div class="w-full h-full min-h-max flex flex-col justify-between items-start overflow-auto bg-[#F4F4F4] gap-5 box-border order-1 md:order-2 lg:order-2 xl:order-2 2xl-order-2 relative">
+        <div class="__className_d9825c w-full h-full 2xl:container flex flex-col box-border overflow-hidden justify-start items-start p-5 md:p-10 lg:p-10">
+            <div class="w-full h-full flex flex-col box-border justify-start items-start gap-y-6 md:p-5 lg:p-5 overflow-hidden">
+                <h1 class="w-max h-max text-base md:text-lg lg:text-xl font-semibold">DG Kontest</h1>
+                <style>
+                    .center {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        height: 100%;
+                        width: 100%;
+                        text-align: center;
+                    }
+                </style>
+                <div class="center">
+                    <!-- yellow warning icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="24" class="text-yellow-500">
+                        <path fill-rule="evenodd" d="M12 2.25a9.75 9.75 0 100 19.5 9.75 9.75 0 000-19.5zM11.25 7.5a1.125 1.125 0 112.25 0v4.5a1.125 1.125 0 01-2.25 0V7.5zm1.125 10.875a1.125 1.125 0 100-2.25h-.001a1.125 1.125 0 000 2.25h.001z" clip-rule="evenodd"></path>
+                    </svg>                    
+                    <span class="text-yellow-500 text-lg md:text-xl lg:text-2xl font-semibold">Kontest tugatildi. Natijalar bilan tanishish uchun reyting bo'limiga o'ting.</span>
+                </div>
+            </div>
+        </div>
+        <section class="w-full hidden md:flex lg:flex justify-center items-center">
+            {% include 'footer.html' %}
+        </section>
+    </div>
+</div>
+{% endblock content %}

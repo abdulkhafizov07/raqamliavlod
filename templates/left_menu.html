@@ -1,0 +1,93 @@
+<style>
+    .logout:hover {
+        background-color: rgba(255, 0, 0, 0.233) !important;
+    }
+</style>
+
+<div class="flex h-max md:h-full lg:h-full flex-col justify-start items-start bg-white min-w-fit sticky left-0 bottom-0 md:top-0 lg:top-0 z-50 box-border order-2 md:order-1 lg:order-1 xl:order-1 2xl-order-1  w-full md:w-[320px] lg:w-[320px]"
+    id="cont">
+    <div
+        class="flex flex-row md:flex-col lg:flex-col justify-start items-center h-max md:h-full lg:h-full overflow-y-auto scroll-smooth relative w-full">
+        <nav aria-label="Main Nav"
+            class="space-1 h-max md:h-full lg:h-full flex flex-row flex-nowrap justify-evenly items-start md:justify-start md:items-start lg:justify-start lg:items-start md:flex-col lg:flex-col py-3 md:px-2 lg:px-2 box-border md:gap-2 lg:gap-3 transition-all duration-500 linear px-2 w-full">
+            <a class="{% if pagename == 'home' %}bg-purple-light text-purple{% endif %} flex gap-[5px] text-gray-500 hover:bg-purple-light hover:text-purple rounded-lg font-normal transition-all duration-100 ease-in font-semibold  p-2 w-full md:w-full lg:w-full flex-col md:flex-row lg:flex-row justify-center md:justify-start lg:justify-start items-center md:gap-4 lg:gap-5 md:px-5 lg:px-8 md:py-[15px] lg:py-4"
+                href="/">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" aria-hidden="true" width="21"
+                    class="stroke-2 stroke-current lg:w-8 lg:h-8 md:w-7 md:h-7">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25">
+                    </path>
+                </svg>
+                <span
+                    class="md:text-base lg:text-md w-max whitespace-nowrap text-center md:text-left lg:text-left text-xs none-text">Bosh
+                    sahifa</span>
+            </a>
+            <a class="{% if pagename == 'courses' %}bg-purple-light text-purple{% endif %} flex gap-[5px] text-gray-500 hover:bg-purple-light hover:text-purple rounded-lg font-normal transition-all duration-100 ease-in p-2 w-full md:w-full lg:w-full flex-col md:flex-row lg:flex-row justify-center md:justify-start lg:justify-start items-center md:gap-4 lg:gap-5 md:px-5 lg:px-8 md:py-[15px] lg:py-4"
+                href="{% url 'courses' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" aria-hidden="true" width="21"
+                    class="stroke-2 stroke-current lg:w-8 lg:h-8 md:w-7 md:h-7">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z">
+                    </path>
+                </svg>
+                <span
+                    class="md:text-base lg:text-md w-max whitespace-nowrap text-center md:text-left lg:text-left text-xs none-text">Kurslar</span>
+            </a>
+            <a class="{% if pagename == 'forum' %}bg-purple-light text-purple{% endif %} flex gap-[5px] text-gray-500 hover:bg-purple-light hover:text-purple rounded-lg font-normal transition-all duration-100 ease-in p-2 w-full md:w-full lg:w-full flex-col md:flex-row lg:flex-row justify-center md:justify-start lg:justify-start items-center md:gap-4 lg:gap-5 md:px-5 lg:px-8 md:py-[15px] lg:py-4"
+                href="{% url 'forum' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" aria-hidden="true" width="21"
+                    class="stroke-2 stroke-current lg:w-8 lg:h-8 md:w-7 md:h-7">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155">
+                    </path>
+                </svg>
+                <span
+                    class="md:text-base lg:text-md w-max whitespace-nowrap text-center md:text-left lg:text-left text-xs none-text">Forum</span>
+            </a>
+            <a class="{% if pagename == 'articles' %}bg-purple-light text-purple{% endif %} flex gap-[5px] text-gray-500 hover:bg-purple-light hover:text-purple rounded-lg font-normal transition-all duration-100 ease-in p-2 w-full md:w-full lg:w-full flex-col md:flex-row lg:flex-row justify-center md:justify-start lg:justify-start items-center md:gap-4 lg:gap-5 md:px-5 lg:px-8 md:py-[15px] lg:py-4"
+                href="{% url 'articles' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" aria-hidden="true" width="21"
+                    class="stroke-2 stroke-current lg:w-8 lg:h-8 md:w-7 md:h-7">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M16.5 3.75V16.5L12 14.25 7.5 16.5V3.75m9 0H18A2.25 2.25 0 0120.25 6v12A2.25 2.25 0 0118 20.25H6A2.25 2.25 0 013.75 18V6A2.25 2.25 0 016 3.75h1.5m9 0h-9">
+                    </path>
+                </svg>
+                <span
+                    class="md:text-base lg:text-md w-max whitespace-nowrap text-center md:text-left lg:text-left text-xs none-text">Maqolalar</span>
+            </a>
+            <a class="{% if pagename == 'kontest' %}bg-purple-light text-purple{% endif %} flex gap-[5px] text-gray-500 hover:bg-purple-light hover:text-purple rounded-lg font-normal transition-all duration-100 ease-in p-2 w-full md:w-full lg:w-full flex-col md:flex-row lg:flex-row justify-center md:justify-start lg:justify-start items-center md:gap-4 lg:gap-5 md:px-5 lg:px-8 md:py-[15px] lg:py-4"
+                href="{% url 'kontest' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" aria-hidden="true" width="21"
+                    class="stroke-2 stroke-current lg:w-8 lg:h-8 md:w-7 md:h-7">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18">
+                    </path>
+                </svg>
+                <span
+                    class="md:text-base lg:text-md w-max whitespace-nowrap text-center md:text-left lg:text-left text-xs none-text">DG
+                    Kontest</span>
+            </a>
+            {% if user.is_authenticated %}
+                <a class="flex gap-[5px] text-gray-500 hover:bg-purple-light hover:text-purple rounded-lg font-normal transition-all duration-100 ease-in p-2 w-full md:w-full lg:w-full flex-col md:flex-row lg:flex-row justify-center md:justify-start lg:justify-start items-center md:gap-4 lg:gap-5 md:px-5 lg:px-8 md:py-[15px] lg:py-4 logout"
+                    href="{% url 'logout' %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512" width="23" style="margin-left: 5px;">
+                        <path
+                            d="M304 336v40a40 40 0 01-40 40H104a40 40 0 01-40-40V136a40 40 0 0140-40h152c22.09 0 48 17.91 48 40v40M368 336l80-80-80-80M176 256h256"
+                            fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="32" />
+                    </svg>
+                    <span
+                        class="md:text-base lg:text-md w-max whitespace-nowrap text-center md:text-left lg:text-left text-xs none-text">Chiqish</span>
+                </a>
+            {% endif %}
+
+
+        </nav>
+    </div>
+</div>

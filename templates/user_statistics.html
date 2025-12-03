@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load user_tags %}
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Urbanist', sans-serif;
+      transition: background 0.4s, color 0.4s;
+      background: #0f172a;
+      color: #f1f5f9;
+    }
+    .light-mode {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    .toggle-btn {
+      background: linear-gradient(135deg, #6366f1, #ec4899);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      float: right;
+    }
+    .profile-header {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    .profile-pic {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #6366f1;
+    }
+    .profile-info h1 {
+      font-size: 28px;
+    }
+    .card {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      transition: background 0.4s;
+    }
+    .light-mode .card {
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .card h2 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 20px;
+    }
+    .stat {
+      background: #334155;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 16px;
+      transition: background 0.4s;
+    }
+    .light-mode .stat {
+      background: #e2e8f0;
+    }
+    .progress-bar {
+      height: 8px;
+      background: #64748b;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .progress-bar span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, #10b981, #3b82f6);
+    }
+    ul {
+      list-style: none;
+      padding-left: 20px;
+    }
+    li::before {
+      content: "✔";
+      color: #10b981;
+      margin-right: 8px;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+  </style>
+<div style="background-color: white !important;" class="w-full h-full flex flex-col md:flex-row lg:flex-row flex-nowrap justify-between items-center md:justify-start md:items-start lg:justify-start lg:items-start box-border">
+    {% include 'left_menu.html' %}
+    <div class="w-full h-full  flex flex-col justify-between items-start overflow-auto bg-[#F4F4F4] gap-5 box-border order-1 md:order-2 lg:order-2 xl:order-2 2xl-order-2 relative">
+        <div class=" w-full h-full flex flex-col justify-start items-start p-3 md:p-10 lg:p-20 box-border overflow-y-scroll scrollbar-none gap-10">
+            <div class="w-full h-max flex flex-col justify-start items-start gap-5 scrollbar-none box-border">
+  <div class="container" id="app">
+    <div class="profile-header">
+      <img class="profile-pic" src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}https://i.pravatar.cc/150?img=5{% endif %}" alt="User Pic">
+      <div class="profile-info">
+        <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+        <p>@{{ user.username }} • {{ user.date_joined }}</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🏆 Contest Stats</h2>
+      <div class="stats-grid">
+        <div class="stat">Total Contests<br><strong>{{ user.kontests.count }} </strong></div>
+        <div class="stat">Wins<br><strong>🥇 3 | 🥈 2 | 🥉 1</strong></div>
+        <div class="stat">Best Rank<br><strong>1st Place</strong></div>
+        <div class="stat">Avg Rank<br><strong>Top 20%</strong></div>
+        <div class="stat">Streak<br>
+          <p><strong>CS: {{ user.profile.current_streak }}</strong></p>
+          <p><strong>LS: {{ user.profile.longest_streak }}</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📊 Skills</h2>
+      <div>
+        {% for course_relation in user.related_courses.all %}
+          <p>{{ course_relation.course.title }}</p>
+          <div class="progress-bar"><span style="width: {% course_process user course_relation.course.id %}%;"></span></div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📅 Activity</h2>
+      <ul>
+        <li>Last login: {{ user.daily_activities.last.activity_date }}</li>
+        <li>Problems solved this week: 0</li>
+        <li>Challenges created: 0</li>
+        <li>Feedback given: 0</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>🎖 Achievements</h2>
+      <div class="stats-grid">
+        <div class="stat"><strong>✅ Achievements will display here</strong></div>
+      </div>
+    </div>
+
+    <div class="footer">© 2025 RaqamliAvlod. All rights reserved.</div>
+  </div>
+
+  <script>
+    document.body.classList.add('light-mode');
+  </script>
+</div>
+</div>
+</div>
+</div>
+{% endblock content %}

@@ -1,0 +1,452 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load increment %}
+
+{% block content %}
+<div class="w-full h-full flex flex-col md:flex-row lg:flex-row flex-nowrap justify-between items-center md:justify-start md:items-start lg:justify-start lg:items-start overflow-hidden box-border">
+    {% include 'left_menu.html' %}
+    <div class="w-full h-full min-h-max flex flex-col justify-between items-start overflow-auto bg-[#F4F4F4] gap-5 box-border order-1 md:order-2 lg:order-2 xl:order-2 2xl-order-2 relative">
+        <div class="__className_d9825c w-full h-full 2xl:container flex flex-col box-border overflow-hidden justify-start items-start p-5 md:p-10 lg:p-10">
+            <div class="w-full h-full flex flex-col box-border justify-start items-start gap-y-6 md:p-5 lg:p-5 overflow-hidden">
+                <h1 class="w-max h-max text-base md:text-lg lg:text-xl font-semibold">DG Kontest</h1>
+
+                <div class="flex flex-row justify-start items-start w-full h-fit">
+                    <div class="flex flex-row w-full justify-start items-start h-full overflow-x-scroll scrollbar-none gap-3 scroll-smooth p-2">
+                        <a href="{% url 'kontest-detail' kontest.id %}" type="button" aria-label="Go to page" class="medium-16 flex items-center justify-between rounded-md px-6 py-2 text-left border text-gray-500 transition-all duration-100 ease-in hover:text-primary">
+                            <div class="flex gap-3 whitespace-nowrap">Olimpiada haqida</div>
+                        </a>
+                        <a href="{% url 'kontest-masalalar' kontest.id %}" type="button" aria-label="Go to page" class="medium-16 flex items-center justify-between rounded-md px-6 py-2 text-left border text-gray-500 transition-all duration-100 ease-in hover:text-primary bg-green text-white">
+                            <div class="flex gap-3 whitespace-nowrap">Masalalar</div>
+                        </a>
+                        <a href="{% url 'kontest-urinishlar' kontest.id %}" type="button" aria-label="Go to page" class="medium-16 flex items-center justify-between rounded-md px-6 py-2 text-left border text-gray-500 transition-all duration-100 ease-in hover:text-primary">
+                            <div class="flex gap-3 whitespace-nowrap">Urinishlar</div>
+                        </a>
+                        <a href="{% url 'kontest-qatnashuvchilar' kontest.id %}" type="button" aria-label="Go to page" class="medium-16 flex items-center justify-between rounded-md px-6 py-2 text-left border text-gray-500 transition-all duration-100 ease-in hover:text-primary">
+                            <div class="flex gap-3 whitespace-nowrap">Qatnashuvchilar</div>
+                        </a>
+                        <a href="{% url 'turnir_jadvali' kontest.id %}" type="button" aria-label="Go to page" class="medium-16 flex items-center justify-between rounded-md px-6 py-2 text-left border text-gray-500 transition-all duration-100 ease-in hover:text-primary">
+                            <div class="flex gap-3 whitespace-nowrap">Turnir jadvali</div>
+                        </a>
+                        
+                <!-- Timer -->
+                {% if cdown %}
+                <button id="countdown-timer" style="background-color:red" 
+                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                <span id="qv" class="font-bold">Qolgan vaqt: </span>
+                                
+                                <span id="timer">{{ cdown }}</span>
+                            </button>   
+                    
+                {% endif %}
+                    </div>
+                </div>
+
+
+
+                <div class="w-full h-full flex flex-col justify-start items-start overflow-x-scroll scrollbar-thin scrollbar-track-slate-300 scrollbar-thumb-slate-600 p-3 gap-y-5">
+                    <div class="min-w-fit w-full h-full flex flex-col justify-start items-center gap-y-5 box-border break-words overflow-y-scroll scrollbar-thin scrollbar-track-slate-300 scrollbar-thumb-slate-600 bg-white rounded-lg p-8 border">
+                        
+                        <h1 class="text-sm md:text-lg lg:text-xl font-bold w-full flex flex-row justify-center items-center text-center p-3 bg-gray-100 rounded-md border border-purple-500">
+                            {{ masala.title }}</h1>
+                        <h1 class="text-base font-semibold">Muallif: <span class="text-lg font-bold">{{ masala.muallif}}</span></h1>
+                        <div class="w-full h-max flex flex-row justify-start items-center flex-wrap gap-3">
+                            <span class="p-1 rounded-md text-yellow-700 bg-yellow-300">Qiyinlik turi: {{masala.qiyinchilik }}</span>
+                            <span class="p-1 rounded-md text-blue-700 bg-blue-300">Xotiradagi o'rni: {{ masala.hotira}}KB</span>
+                            <span class="p-1 rounded-md text-purple-700 bg-purple-300">Vaqt chegarasi: {{masala.timeout.seconds }}Ms</span>
+                        </div>
+                        <div class="w-full flex flex-col justify-start items-start gap-3">
+                            <p class="!text-md">
+                                {{ masala.description|safe }}
+                            </p>
+                        </div>
+                        <div class="w-full flex flex-col justify-start items-start gap-3">
+                            <section>
+                                <h1 class="text-sm md:text-lg lg:text-xl font-bold">Kirish ma'lumotlari</h1>
+                                <p class="text-md">{{ masala.kirish|safe }}</p>
+                            </section>
+                            <section>
+                                <h1 class="text-sm md:text-lg lg:text-xl font-bold">Chiqish ma'lumotlari</h1>
+                                <p class="text-md">{{ masala.chiqish|safe }}</p>
+                            </section>
+                        </div>
+                        <div class="w-full h-max flex flex-col flex-nowrap justify-center items-start gap-y-2">
+                            <section class="w-full h-max flex flex-row flex-nowrap justify-start items-center gap-x-5">
+                                <h1 class="w-full text-sm md:text-lg lg:text-xl font-bold">Input</h1>
+                                <h1 class="w-full text-sm md:text-lg lg:text-xl font-bold">Output</h1>
+                            </section>
+                            {% for test in masala.tests.all %}
+                            {% if not test.hidden %}
+                            <section class="w-full h-max flex flex-row justify-center items-start gap-4 px-4 border-b rounded-md border border-purple-500">
+                                <p class="text-sm md:text-bas lg:text-base py-4 w-min flex">{{ forloop.counter }}</p>
+                                <p class="text-sm md:text-bas lg:text-base w-full border-x border-purple-500 py-4 px-4 flex flex-col justify-start items-start break-words h-full">
+                                    {{ test.kirish|mmk }}
+                                </p>
+                                <p class="text-sm md:text-bas lg:text-base w-full flex flex-col justify-start items-start py-4 break-words">
+                                    {{ test.output|mmk }}
+                                </p>
+                            </section>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="w-full h-max flex flex-col justify-center items-start ">
+                            <form id="codeForm" class="w-full h-max flex flex-col justify-center items-start"
+                                method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                
+                                <!-- Kontest va masala ID'larini yashirin input'lar -->
+                                <input type="hidden" name="kontest_id" value="{{ kontest.id }}">
+                                <input type="hidden" name="masala_id" value="{{ masala.id }}">
+
+                                <h1 class="w-full text-sm md:text-lg lg:text-xl font-bold">Yechim yuborish</h1>
+
+                                <div id="editor"></div>
+                                <textarea id="code" name="code"></textarea>
+
+                                <section class="w-full flex flex-col flex-nowrap md:flex-row lg:flex-row justify-center items-center gap-4">
+
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs/loader.min.js"></script>
+
+                                    <style>
+                                        #code {
+                                            visibility: hidden;
+                                        }
+
+                                        #editor {
+                                            height: 60vh;
+                                            width: 100%;
+                                            border: 1px solid #ddd;
+                                        }
+                                    </style>
+
+                                    <script>
+                                        // Initialize Monaco Editor
+                                        let editor;
+                                        let isSubmitting = false;
+                                        
+                                        window.addEventListener('load', () => {
+                                            require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs' } });
+                                            require(['vs/editor/editor.main'], function () {
+                                                editor = monaco.editor.create(document.getElementById('editor'), {
+                                                    value: `// Kodingizni bu yerga yozing
+`,
+                                                    language: 'cpp',
+                                                    theme: 'vs-dark',
+                                                    fontSize: 14,
+                                                    minimap: { enabled: false }
+                                                });
+
+                                                const form = document.getElementById('codeForm');
+                                                const textarea = document.getElementById('code');
+                                                const submitBtn = document.getElementById('submitBtn');
+
+                                                form.addEventListener('submit', (e) => {
+                                                    if (isSubmitting) {
+                                                        e.preventDefault();
+                                                        return;
+                                                    }
+                                                    
+                                                    // Editor kodini textarea'ga yozish
+                                                    if (editor) {
+                                                        textarea.value = editor.getValue();
+                                                    }
+                                                    
+                                                    // Button'ni disable qilish
+                                                    if (submitBtn) {
+                                                        submitBtn.disabled = true;
+                                                        submitBtn.innerHTML = `
+                                                            <div class="flex items-center justify-center">
+                                                                <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                                                                Yuborilmoqda...
+                                                            </div>
+                                                        `;
+                                                    }
+                                                    
+                                                    isSubmitting = true;
+                                                    
+                                                    // Formni avtomatik yuborish
+                                                    // Form o'zi yuboriladi, chunki action bor
+                                                });
+                                            });
+                                        });
+                                    </script>
+
+                                    <select name="language" id="language" class="w-full border border-purple-500 flex px-3 py-2 rounded-md bg-white list-none decoration-none outline-none">
+                                        <option {% if language == 'C++' %}selected{% endif %} value="C++">C++</option>
+                                        <option {% if language == 'C' %}selected{% endif %} value="C">C</option>
+                                        <option {% if language == 'Java' %}selected{% endif %} value="Java">Java</option>
+                                        <option {% if language == 'Python' %}selected{% endif %} value="Python">Python</option>
+                                        <option {% if language == 'Go' %}selected{% endif %} value="Go">Go</option>
+                                    </select>
+
+                                    <script>
+                                        window.addEventListener('load', () => {
+                                            const languageSelector = document.getElementById('language');
+                                            if (languageSelector) {
+                                                const savedLang = localStorage.getItem('selectedLanguage');
+                                                if (savedLang) {
+                                                    languageSelector.value = savedLang;
+                                                    
+                                                    // Editor tilini o'zgartirish
+                                                    if (editor) {
+                                                        let editorLang = savedLang.toLowerCase();
+                                                        if (editorLang === 'python') editorLang = 'python3';
+                                                        if (editorLang === 'c++') editorLang = 'cpp';
+                                                        monaco.editor.setModelLanguage(editor.getModel(), editorLang);
+                                                    }
+                                                }
+                                                
+                                                languageSelector.addEventListener('change', () => {
+                                                    localStorage.setItem('selectedLanguage', languageSelector.value);
+                                                    
+                                                    if (editor) {
+                                                        let selectedLanguage = languageSelector.value.toLowerCase();
+                                                        if (selectedLanguage === 'python') {
+                                                            selectedLanguage = 'python3';
+                                                        } else if (selectedLanguage === 'c++') {
+                                                            selectedLanguage = 'cpp';
+                                                        }
+                                                        monaco.editor.setModelLanguage(editor.getModel(), selectedLanguage);
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    </script>
+
+                                    <label for="CodeFile" class="w-full border border-purple-500 h-max rounded-md flex flex-row justify-between items-center cursor-pointer">
+                                        <span class="px-4 text-sm md:text-lg lg:text-lg text-gray-500">Fayl tanlang</span>
+                                        <span class="h-full bg-purple-500 text-white px-3 py-2 text-center rounded-r-md">Yuklash</span>
+                                    </label>
+                                    <input id="CodeFile" class="hidden" accept=".cpp,.c,.java,.py,.go" type="file" name="script">
+                                    
+                                    <button type="submit" id="submitBtn"
+                                        class="w-full p-2 rounded-md bg-purple-500 text-white hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed">
+                                        Jo'natish
+                                    </button>
+                                </section>
+                            </form>
+                            
+                            <!-- Urinishlar jadvali -->
+                            <div class="flex h-full w-full flex-col flex-nowrap box-border mt-8">
+                                <h3 class="text-lg font-bold mb-4">Oldingi urinishlar</h3>
+                                <div class="box-border h-max w-full overflow-x-scroll scrollbar-none bg-white rounded-lg border">
+                                    <table class="w-full">
+                                        <thead class="bg-gray-50">
+                                            <tr class="text-left">
+                                                <th class="py-3 px-4 text-sm font-semibold text-gray-600">Holati</th>
+                                                <th class="py-3 px-4 text-sm font-semibold text-gray-600">Til</th>
+                                                <th class="py-3 px-4 text-sm font-semibold text-gray-600">Sana</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200">
+                                            {% for result in results %}
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="py-3 px-4">
+                                                    <span class="px-3 py-1 rounded-full text-sm font-medium 
+                                                        {% if result.state == '🟢 Passed' %}bg-green-100 text-green-800
+                                                        {% elif result.state == '🔴 Failed' %}bg-red-100 text-red-800
+                                                        {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                                        {{ result.state }}
+                                                    </span>
+                                                </td>
+                                                <td class="py-3 px-4 text-gray-700">{{ result.language }}</td>
+                                                <td class="py-3 px-4 text-gray-700">{{ result.time|date:"H:i" }}</td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td colspan="3" class="text-center py-8 text-gray-500">
+                                                    Hali urinishlar yo'q
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="w-full hidden md:flex lg:flex justify-center items-center">
+            {% include 'footer.html' %}
+        </section>
+    </div>
+</div>
+
+<!-- Timer JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Timer JavaScript
+    const timerElement = document.getElementById('timer');
+    const qv = document.getElementById('qv');
+    const countdownContainer = document.getElementById('countdown-timer');
+
+    if (timerElement && timerElement.textContent.includes(':')) {
+        let timeString = timerElement.textContent.trim();
+        let parts = timeString.split(':');
+        
+        if (parts.length === 3) {
+            let hours = parseInt(parts[0]) || 0;
+            let minutes = parseInt(parts[1]) || 0;
+            let seconds = parseInt(parts[2]) || 0;
+            let totalSeconds = hours * 3600 + minutes * 60 + seconds;
+            
+            console.log('Timer started:', timeString, 'Total seconds:', totalSeconds);
+            
+            function updateTimer() {
+                if (totalSeconds <= 0) {
+                    timerElement.textContent = "00:00:00";
+                    
+                    if (countdownContainer) {
+                        qv.textContent = ``
+                        timerElement.textContent = `⏰ Vaqt tugadi!`
+                        countdownContainer.classList.add('bg-red-700');
+                    }
+                    
+                    // Sahifani 3 soniyadan keyin yangilash
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 3000);
+                    
+                    return; // Funksiyani to'xtatish
+                }
+                
+                totalSeconds--;
+                
+                let h = Math.floor(totalSeconds / 3600);
+                let m = Math.floor((totalSeconds % 3600) / 60);
+                let s = totalSeconds % 60;
+                
+                let formattedTime = 
+                    `${String(h).padStart(2, '0')}:` +
+                    `${String(m).padStart(2, '0')}:` +
+                    `${String(s).padStart(2, '0')}`;
+                
+                timerElement.textContent = formattedTime;
+                
+                // Oxirgi 5 daqiqada animatsiya
+                if (countdownContainer) {
+                    if (totalSeconds < 300) { // 5 daqiqadan kam
+                        countdownContainer.classList.remove('bg-red-500');
+                        countdownContainer.classList.add('bg-red-700');
+                        
+                        // Har 2 soniyada miltillatish
+                        if (totalSeconds % 2 === 0) {
+                            countdownContainer.classList.add('animate-pulse');
+                        } else {
+                            countdownContainer.classList.remove('animate-pulse');
+                        }
+                    }
+                }
+            }
+            
+            // Har soniyada yangilash
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        }
+    }
+    
+    // File upload handler
+    const fileInput = document.getElementById('CodeFile');
+    const fileLabel = document.querySelector('label[for="CodeFile"]');
+    
+    if (fileInput && fileLabel) {
+        fileInput.addEventListener('change', function(e) {
+            if (this.files.length > 0) {
+                const file = this.files[0];
+                const fileName = file.name;
+                
+                // Label'ni yangilash
+                const labelSpan = fileLabel.querySelector('span:first-child');
+                if (labelSpan) {
+                    labelSpan.textContent = fileName;
+                    labelSpan.classList.remove('text-gray-500');
+                    labelSpan.classList.add('text-purple-600', 'font-medium');
+                }
+                
+                // Faylni o'qish
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    if (editor) {
+                        editor.setValue(e.target.result);
+                        
+                        // Fayl kengaytmasi bo'yicha tilni aniqlash
+                        const ext = file.name.split('.').pop().toLowerCase();
+                        const languageSelector = document.getElementById('language');
+                        
+                        if (languageSelector) {
+                            let selectedLang = '';
+                            let editorLang = '';
+                            
+                            switch (ext) {
+                                case 'cpp':
+                                case 'cc':
+                                case 'cxx':
+                                    selectedLang = 'C++';
+                                    editorLang = 'cpp';
+                                    break;
+                                case 'c':
+                                    selectedLang = 'C';
+                                    editorLang = 'c';
+                                    break;
+                                case 'java':
+                                    selectedLang = 'Java';
+                                    editorLang = 'java';
+                                    break;
+                                case 'py':
+                                    selectedLang = 'Python';
+                                    editorLang = 'python';
+                                    break;
+                                case 'go':
+                                    selectedLang = 'Go';
+                                    editorLang = 'go';
+                                    break;
+                            }
+                            
+                            if (selectedLang) {
+                                languageSelector.value = selectedLang;
+                                localStorage.setItem('selectedLanguage', selectedLang);
+                                
+                                if (editor) {
+                                    if (editorLang === 'python') editorLang = 'python3';
+                                    monaco.editor.setModelLanguage(editor.getModel(), editorLang);
+                                }
+                            }
+                        }
+                    }
+                };
+                reader.readAsText(file);
+            }
+        });
+    }
+    
+    // Sahifa yuklanganda, agar yuborilgan bo'lsa, button'ni tiklash
+    const submitBtn = document.getElementById('submitBtn');
+    if (submitBtn && submitBtn.disabled) {
+        // Agar sahifa yangilangan bo'lsa, button'ni faollashtirish
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Jo'natish";
+    }
+});
+</script>
+
+<style>
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.animate-pulse {
+    animation: pulse 1s infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+</style>
+{% endblock content %}

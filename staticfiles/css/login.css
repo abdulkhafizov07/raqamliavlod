@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+    font-family: "Roboto", sans-serif;
+    text-decoration: none;
+    transition: all .3s;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    /* overflow: hidden; */
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 500px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 7px;
+}
+
+.container .logo {
+    width: 200px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+.container form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: column;
+    row-gap: 25px;
+}
+
+.container form div {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+}
+
+.container form div input {
+    height: 40px;
+    border: 1px solid #3e67a8;
+    outline: none;
+    border-radius: 5px;
+    padding: 0 10px;
+    color: #3e67a8;
+    background-color: transparent;
+    font-size: 16px;
+}
+
+.select-container {
+    display: flex;
+    gap: 20px;
+    flex-direction: unset !important;
+}
+
+.select-container select {
+    width: 50%;
+}
+
+#row {
+    display: flex;
+    flex-direction: unset !important;
+    gap: 20px;
+}
+
+.a {
+    width: 50% !important; 
+}
+
+
+.container form select {
+    height: 40px;
+    border: 1px solid #3e67a8;
+    outline: none;
+    border-radius: 5px;
+    padding: 0 10px;
+    color: #3e67a8;
+    background-color: transparent;
+    font-size: 16px;
+}
+
+input::placeholder {
+    color: #3e67a8;
+}
+
+.container form div label {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+    font-size: 15px;
+    color: #3e67a8;
+    cursor: text;
+}
+
+.container form #other {
+    display: flex;
+    flex-direction: unset;
+    gap: 30px;
+    color: #3e67a8;
+}
+
+#other a {
+    color: #3e67a8;
+    text-decoration: underline;
+}
+
+#other a:hover {
+    text-decoration: underline;
+    text-shadow: 0 0 5px #3e67a8;
+}
+
+.container form div input:focus,
+.container form div input:valid {
+    border: 2px solid #3e67a8;
+    box-shadow: 0 5px 5px #3e67a8;
+}
+
+.container form div input:focus ~ label,
+.container form div input:valid ~ label {
+    /* transform: translateY(-100%); 
+    top: 0;
+    font-size: 12px;
+    left: 0;
+    font-weight: bold; */
+    display: none;
+}
+
+.container form div button {
+    height: 40px;
+    outline: none;
+    font-size: 16px;
+    background-color: #3e67a8;
+    border: 1px solid #3e67a8;
+    border-radius: 5px;
+    color: #fff;
+    transition: all 0.3s;
+    /* width: 200px; Agar btn ni kichik qilish kerak bo'lsa */
+    /* margin: 0 auto; Agar btn ni kichik qilish kerak bo'lsa */
+}
+
+.container form div button:hover {
+    background-color: transparent;
+    color: #3e67a8;
+    cursor: pointer;
+    box-shadow: 0 0 10px #3e67a8,
+                0 0 20px #3e67a8;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 500px) {
+    .container {
+        width: 100%;
+    }
+
+    .container .logo {
+        width: 150px;
+    }
+
+    #other {
+        justify-content: space-between;
+    }
+
+    input {
+        font-size: 15px !important;
+    }
+    .select-container, #row {
+        gap: 10px;
+    }
+
+    .container form {
+        row-gap: 20px;
+    }
+
+    .container {
+        padding: 20px 15px;
+    }
+
+    .a {
+        width: 48.5% !important;
+    }
+}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div
+    class="w-full h-full flex flex-col md:flex-row lg:flex-row flex-nowrap justify-between items-center md:justify-start md:items-start lg:justify-start lg:items-start overflow-hidden box-border">
+    {% include 'left_menu.html' %}
+    <div class="w-full h-full min-h-max flex flex-col justify-between items-start overflow-auto bg-[#F4F4F4] gap-5 box-border order-1 md:order-2 lg:order-2 xl:order-2 2xl-order-2 relative">
+        <div class="min-w-[280px] w-full border min-h-fit h-full flex flex-col justify-start items-start p-3 md:p-10 lg:p-20 gap-5 scrollbar-none box-border overflow-hidden">
+            <div class="w-full lg:w-2/3 h-full flex flex-col justify-start items-center box-border gap-5 overflow-y-scroll scrollbar-none bg-white p-5 rounded-lg">
+                <div class="w-full flex flex-row justify-start items-start">
+                    <div class="w-full lg:w-full flex flex-row justify-start items-center flex-wrap gap-3">
+                        <span class="py-1 px-2 rounded-md text-sm md:text-md lg:text-lg flex justify-center items-center cursor-pointer border hover:border-none hover:bg-purple-500 hover:text-white">Usmon</span>
+                        <span class="py-1 px-2 rounded-md text-sm md:text-md lg:text-lg flex justify-center items-center cursor-pointer border hover:border-none hover:bg-purple-500 hover:text-white">string</span><span
+                            class="py-1 px-2 rounded-md text-sm md:text-md lg:text-lg flex justify-center items-center cursor-pointer border hover:border-none hover:bg-purple-500 hover:text-white">utkirbek_turakulov</span><button
+                            type="button"
+                            class="py-1 px-2 rounded-md border text-sm md:text-md lg:text-lg flex justify-center items-center hover:border-none hover:bg-purple-500 hover:text-white cursor-pointer">+</button>
+                    </div>
+                </div>
+                <form method="post" enctype="multipart/form-data" class="w-full h-full flex flex-col justify-start items-start gap-y-3"> {% csrf_token %}
+                    <div class="w-full h-full flex flex-col justify-start items-start gap-y-3">
+                        <section
+                            class="w-full h-max flex flex-col md:flex-row lg:flex-row flex-nowrap justify-center items-center gap-x-4">
+                            
+                            <input id="title" placeholder="{{ form.errors }}"
+                                class="rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 w-full" name="title">
+                        </section>
+                        {{ form.media }}
+                        {{ form.body }}
+                    </div><button 
+                        class="w-full rounded-lg py-2 px-3 bg-purple-500 text-white disabled:opacity-20 disabled:cursor-not-allowed hover:bg-white hover:text-purple-500 hover:ring-2 hover:ring-purple-500 sticky bottom-0 z-50">Maqolani
+                        yuborish</button>
+                </form>
+            </div>
+        </div>
+        <section class="w-full hidden md:flex lg:flex justify-center items-center">
+            {% include 'footer.html' %}
+        </section>
+    </div>
+</div>
+{% endblock content %}
