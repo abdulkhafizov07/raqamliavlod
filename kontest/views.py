@@ -53,7 +53,7 @@ def masalalar(request):
         'pages':paginator.page_range,
         'q':q
     })
-MAX_TIME = timedelta(minutes=20)
+MAX_TIME = timedelta(hours=3)
 @login_required(login_url="login", redirect_field_name='next')
 @check_contest_time
 def kontest_detail(request, kontest_id):

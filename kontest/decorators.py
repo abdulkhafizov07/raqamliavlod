@@ -7,7 +7,7 @@ from django.shortcuts import redirect
 from .models import Masala
 from functools import wraps
 import json
-MAX_TIME = timedelta(minutes=20)
+MAX_TIME = timedelta(hours=3)
 # print(eval(input().replace(" ", "+")))
 # def check_contest_time(fn):
 #     def wrapper(request, *args, **kwargs):
