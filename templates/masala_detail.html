@@ -121,14 +121,9 @@
                                             require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs' } });
                                             require(['vs/editor/editor.main'], function () {
                                                 editor = monaco.editor.create(document.getElementById('editor'), {
-                                                    value: `#include <iostream>
-using namespace std;
-
-int main() {
+                                                    value: `
     // Kodingizni bu yerga yozing
-    
-    return 0;
-}`,
+`,
                                                     language: 'cpp',
                                                     theme: 'vs-dark',
                                                     fontSize: 14,
